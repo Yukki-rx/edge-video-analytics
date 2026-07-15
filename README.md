@@ -89,9 +89,9 @@ source devel/setup.bash
 roslaunch robot_vision endpoint.launch
 ~~~
 
-也可以在仓库根目录直接运行 `./endpoint_device/start.sh`，脚本会自动初始化、编译并
-加载工作空间后启动 baseline。可通过 `ROS_MASTER_URI`、`ROS_IP` 和 `ROS_SETUP`
-环境变量覆盖默认网络及 ROS 配置。
+完成上述编译和网络环境配置后，也可以在仓库根目录直接运行
+`./endpoint_device/start.sh`。脚本只加载 ROS 与已编译的工作空间环境，然后启动
+baseline；可通过 `ROS_SETUP` 覆盖默认的 `/opt/ros/noetic/setup.bash`。
 
 默认输出为 416×312、10 FPS、JPEG 质量 70，可按需调整：
 
@@ -135,8 +135,10 @@ CPU 推理：
 roslaunch edge_yolo_ros edge.launch device:=cpu
 ~~~
 
-也可以运行 `./edge_device/start.sh device:=cpu` 一次完成初始化、编译和启动。脚本默认
-使用 `~/venvs/edge_yolo`，可通过 `EDGE_VENV` 指定其他虚拟环境。
+完成上述编译和网络环境配置后，也可以运行
+`./edge_device/start.sh device:=cpu`。脚本只加载 ROS、已有 Python 虚拟环境和已编译的
+工作空间，然后启动 baseline；默认使用 `~/venvs/edge_yolo`，可通过 `EDGE_VENV`
+指定其他虚拟环境。
 
 CUDA 推理使用 `device:=0`。自定义模型可通过
 `weights:=/path/to/best.pt` 指定。
