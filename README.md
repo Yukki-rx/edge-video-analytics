@@ -3,7 +3,7 @@
 本项目由端侧设备 A 采集视频，边缘设备 B 执行 AI 推理，提供两套可切换链路：
 
 - `baseline`：缩放、限帧和 JPEG 压缩后通过 ROS 话题传输，边缘侧执行 YOLO 检测。
-- `improved`：运动门控后使用 H.264 RTP/UDP 传输，边缘侧执行 YOLO + ByteTrack，并通过反馈控制动态调整帧率和码率。
+- `improved`：目前尚在开发中。运动门控后使用 H.264 RTP/UDP 传输，边缘侧执行 YOLO + ByteTrack，并通过反馈控制动态调整帧率和码率。
 
 `master` 分支保留 baseline；`dev` 分支包含 baseline 和 improved 的完整实现。
 
