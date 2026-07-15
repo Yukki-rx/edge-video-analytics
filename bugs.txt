@@ -1,0 +1,37 @@
+运行improved版本，rqt中看不到/yolo/annotated和/uav/image_decoded的图像，/usb_cam和/uav/image_gated中有图像，切到/usb_cam/image_raw/compressed会直接挂掉线程
+
+[INFO] [617.514282]: H264 sender: /uav/image_gated -> udp://192.168.0.118:5600 (640x480, 10.0 fps, 1200 kbps, encoder=nvv4l2h264enc)
+[usb_cam-2] process has died [pid 4817, exit code -11, cmd /home/cwkj/endpoint_ws/devel/lib/usb_cam/usb_cam_node __name:=usb_cam __log:=/home/cwkj/.ros/log/819dcf94-1dd3-11b2-8bee-3c6d661664f0/usb_cam-2.log].
+log file: /home/cwkj/.ros/log/819dcf94-1dd3-11b2-8bee-3c6d661664f0/usb_cam-2*.log
+^C[h264_sender-4] killing on exit
+[motion_gate-3] killing on exit
+[rosout-1] killing on exit
+[master] killing on exit
+
+有部分节点echo不通过，下面的两个节点只是我测试的，应该还有许多节点也是类似的。
+cwkj@ubuntu:~$ rostopic echo /yolo/detections
+ERROR: Cannot load message class for [edge_yolo_ros/DetectionArray]. Are your messages built?
+cwkj@ubuntu:~$ rostopic list
+/rosout
+/rosout_agg
+/uav/gate_stats
+/uav/image_decoded
+/uav/image_gated
+/uav/stream_control
+/uav/stream_meta
+/usb_cam/camera_info
+/usb_cam/image_raw
+/usb_cam/image_raw/compressed
+/usb_cam/image_raw/compressed/parameter_descriptions
+/usb_cam/image_raw/compressed/parameter_updates
+/usb_cam/image_raw/compressedDepth
+/usb_cam/image_raw/compressedDepth/parameter_descriptions
+/usb_cam/image_raw/compressedDepth/parameter_updates
+/yolo/annotated_image
+/yolo/detections
+/yolo/tracks
+cwkj@ubuntu:~$ rostopic echo /uav/stream_
+/uav/stream_control  /uav/stream_meta     
+cwkj@ubuntu:~$ rostopic echo /uav/stream_meta
+ERROR: Cannot load message class for [stream_msgs/StreamMeta]. Are your messages built?
+
