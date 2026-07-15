@@ -1,8 +1,9 @@
-**/build/
-**/devel/
-**/install/
-**/.catkin_tools/
-**/__pycache__/
-*.pyc
-.idea/
-.vscode/
+__pycache__/
+*.py[cod]
+
+# Runtime output
+results/
+log/
+build/
+devel/
+install/

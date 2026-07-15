@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) Yukki-rx
+Copyright (c) 2026 yukki
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -19,8 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
-This license applies only to project-authored material that is not accompanied
-by a more specific package or file license. Third-party components, model
-weights, data files, and other bundled resources remain under their own
-licenses and notices. See THIRD_PARTY_NOTICES.md for details.
