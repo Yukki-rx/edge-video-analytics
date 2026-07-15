@@ -1,0 +1,9 @@
+input_topic: /uav/image_preprocessed/compressed
+detections_topic: /yolo/detections
+annotated_image_topic: /yolo/annotated_image
+confidence: 0.40
+iou_threshold: 0.45
+image_size: 640
+max_detections: 100
+device: cpu
+publish_annotated_image: true

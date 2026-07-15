@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Unified endpoint launch.
+
+  Baseline (existing pipeline):
+    roslaunch robot_vision endpoint.launch mode:=baseline
+    usb_cam -> resize/throttle/JPEG -> /uav/image_preprocessed/compressed (ROS)
+
+  Improved (content-aware gate + H.264 RTP/UDP out-of-band transport):
+    roslaunch robot_vision endpoint.launch mode:=improved edge_host:=192.168.0.118
+    usb_cam -> motion_gate -> h264_sender -> RTP/UDP :5600
+    per-frame metadata on /uav/stream_meta, feedback on /uav/stream_control
+-->
+<launch>
+  <arg name="mode" default="improved" doc="baseline | improved" />
+
+  <arg name="video_device" default="/dev/video0" />
+  <arg name="camera_width" default="640" />
+  <arg name="camera_height" default="480" />
+
+  <!-- baseline args -->
+  <arg name="output_width" default="416" />
+  <arg name="output_height" default="312" />
+  <arg name="output_fps" default="10.0" />
+  <arg name="jpeg_quality" default="70" />
+
+  <!-- improved args -->
+  <arg name="edge_host" default="192.168.0.118" />
+  <arg name="port" default="5600" />
+  <arg name="initial_fps" default="10.0" />
+  <arg name="initial_bitrate_kbps" default="1200" />
+  <arg name="motion_threshold" default="0.005" />
+  <arg name="keepalive_interval" default="2.0" />
+  <arg name="force_software_encoder" default="false" />
+
+  <include file="$(find robot_vision)/launch/usb_cam.launch">
+    <arg name="video_device" value="$(arg video_device)" />
+    <arg name="image_width" value="$(arg camera_width)" />
+    <arg name="image_height" value="$(arg camera_height)" />
+  </include>
+
+  <group if="$(eval arg('mode') == 'baseline')">
+    <node pkg="robot_vision"
+          type="image_preprocessor.py"
+          name="image_preprocessor"
+          output="screen">
+      <param name="input_topic" value="/usb_cam/image_raw" />
+      <param name="output_topic" value="/uav/image_preprocessed/compressed" />
+      <param name="output_width" value="$(arg output_width)" />
+      <param name="output_height" value="$(arg output_height)" />
+      <param name="output_fps" value="$(arg output_fps)" />
+      <param name="jpeg_quality" value="$(arg jpeg_quality)" />
+    </node>
+  </group>
+
+  <group if="$(eval arg('mode') == 'improved')">
+    <node pkg="robot_vision"
+          type="motion_gate.py"
+          name="motion_gate"
+          output="screen">
+      <param name="input_topic" value="/usb_cam/image_raw" />
+      <param name="output_topic" value="/uav/image_gated" />
+      <param name="stats_topic" value="/uav/gate_stats" />
+      <param name="motion_threshold" value="$(arg motion_threshold)" />
+      <param name="keepalive_interval" value="$(arg keepalive_interval)" />
+    </node>
+
+    <node pkg="robot_vision"
+          type="h264_sender.py"
+          name="h264_sender"
+          output="screen">
+      <param name="input_topic" value="/uav/image_gated" />
+      <param name="meta_topic" value="/uav/stream_meta" />
+      <param name="control_topic" value="/uav/stream_control" />
+      <param name="edge_host" value="$(arg edge_host)" />
+      <param name="port" value="$(arg port)" />
+      <param name="output_width" value="$(arg camera_width)" />
+      <param name="output_height" value="$(arg camera_height)" />
+      <param name="initial_fps" value="$(arg initial_fps)" />
+      <param name="initial_bitrate_kbps" value="$(arg initial_bitrate_kbps)" />
+      <param name="force_software_encoder" value="$(arg force_software_encoder)" />
+    </node>
+  </group>
+</launch>

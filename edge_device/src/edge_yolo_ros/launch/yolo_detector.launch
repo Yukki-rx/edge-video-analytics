@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<launch>
+  <arg name="weights" default="$(find edge_yolo_ros)/weights/yolov8n.pt" />
+  <arg name="device" default="cpu" />
+  <arg name="input_topic" default="/uav/image_preprocessed/compressed" />
+
+  <node pkg="edge_yolo_ros"
+        type="yolo_detector.py"
+        name="yolo_detector"
+        output="screen">
+    <rosparam command="load" file="$(find edge_yolo_ros)/config/detector.yaml" />
+    <param name="weights" value="$(arg weights)" />
+    <param name="device" value="$(arg device)" />
+    <param name="input_topic" value="$(arg input_topic)" />
+  </node>
+</launch>
