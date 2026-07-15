@@ -6,6 +6,7 @@
 
   <maintainer email="student@example.com">student</maintainer>
   <license>MIT</license>
+  <license>AGPL-3.0-only</license>
 
   <buildtool_depend>catkin</buildtool_depend>
   <build_depend>message_generation</build_depend>

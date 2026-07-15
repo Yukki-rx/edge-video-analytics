@@ -195,6 +195,14 @@ rqt_image_view /yolo/annotated_image
 - **YOLO 节点导入失败**：在启动节点的同一虚拟环境中验证 `rospy`、`cv2`、`torch` 和 `ultralytics` 均可导入。若出现`ultralytics`无法导入的情况，
 请手动指定相应python解释器重新编译工作空间。
 
-## 第三方组件
+## 许可证
 
-仓库包含 ROS `usb_cam` 源码和 Ultralytics YOLO 权重。许可证与第三方声明见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。
+你可以依据 [MIT License](LICENSE) 使用、修改和分发本项目原创代码，包括
+`endpoint/src/robot_vision`、`edge/src/edge_yolo_ros/scripts/yolo_detector.py`
+及其他由本项目编写的 ROS 集成文件。
+
+仓库同时包含不受 MIT License 覆盖的第三方内容：ROS `usb_cam` 使用 BSD
+3-Clause License；Ultralytics、YOLO 模型权重和 OpenCV Haar cascade 数据遵循
+各自的许可证与使用条款。Ultralytics 软件及其预训练模型默认使用 AGPL-3.0；
+运行或分发组合后的完整应用时，需要遵守相应的 AGPL-3.0 要求，或另行取得适用的
+Ultralytics 许可证。详情见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。
