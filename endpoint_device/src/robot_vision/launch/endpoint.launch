@@ -41,8 +41,8 @@
 
   <group if="$(eval arg('mode') == 'baseline')">
     <node pkg="robot_vision"
-          type="image_preprocessor.py"
-          name="image_preprocessor"
+          type="image_compressor.py"
+          name="image_compressor"
           output="screen">
       <param name="input_topic" value="/usb_cam/image_raw" />
       <param name="output_topic" value="/uav/image_preprocessed/compressed" />
