@@ -3,7 +3,7 @@
 本分支实现 baseline 视频分析链路：端侧设备 A 采集图像并完成缩放、限帧和 JPEG
 压缩，通过 ROS 话题发送到边缘设备 B，由 YOLO 完成目标检测。
 
-完整的 improved 链路位于 `dev` 分支。
+完整的 improved 链路位于 `dev` 分支。（存在bug，尚未完成）
 
 ## 数据流
 
