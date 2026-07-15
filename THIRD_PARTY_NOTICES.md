@@ -18,7 +18,7 @@ copyright notices are retained with the package.
 - Integration path: edge_device/src/edge_yolo_ros
 - Python dependency: ultralytics
 - Upstream: https://github.com/ultralytics/ultralytics
-- Upstream licensing: AGPL-3.0 or an applicable Ultralytics Enterprise License
+- Upstream licensing: AGPL-3.0 
 
 edge_yolo_ros is licensed under AGPL-3.0-only. The included .pt files remain
 subject to the terms attached by their respective authors and distributors.
