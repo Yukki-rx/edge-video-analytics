@@ -1,80 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  Unified edge launch.
-
-  Baseline (existing pipeline):
-    roslaunch edge_yolo_ros edge.launch mode:=baseline
-    /uav/image_preprocessed/compressed -> yolo_detector + metrics_recorder
-
-  Improved:
-    roslaunch edge_yolo_ros edge.launch mode:=improved
-    RTP/UDP :5600 -> h264_receiver -> /uav/image_decoded
-    -> yolo_tracker (ByteTrack + trajectory prediction + feedback loop)
-    -> metrics_recorder
-
-  On shutdown the metrics recorder writes results to results_dir and,
-  when a run of the other mode exists, an automatic comparison report.
--->
 <launch>
-  <arg name="mode" default="improved" doc="baseline | improved" />
   <arg name="weights" default="$(find edge_yolo_ros)/weights/yolov8n.pt" />
   <arg name="device" default="cpu" />
   <arg name="image_size" default="640" />
   <arg name="results_dir" default="~/edge_yolo_ros/results" />
 
-  <!-- improved args -->
-  <arg name="port" default="5600" />
-  <arg name="prediction_horizon_s" default="0.5" />
-  <arg name="active_fps" default="15.0" />
-  <arg name="active_bitrate_kbps" default="1800" />
-  <arg name="idle_fps" default="3.0" />
-  <arg name="idle_bitrate_kbps" default="400" />
-  <arg name="idle_timeout" default="3.0" />
-
-  <group if="$(eval arg('mode') == 'baseline')">
-    <node pkg="edge_yolo_ros"
-          type="yolo_detector.py"
-          name="yolo_detector"
-          output="screen">
-      <rosparam command="load" file="$(find edge_yolo_ros)/config/detector.yaml" />
-      <param name="weights" value="$(arg weights)" />
-      <param name="device" value="$(arg device)" />
-      <param name="image_size" value="$(arg image_size)" />
-    </node>
-  </group>
-
-  <group if="$(eval arg('mode') == 'improved')">
-    <node pkg="edge_yolo_ros"
-          type="h264_receiver.py"
-          name="h264_receiver"
-          output="screen">
-      <param name="port" value="$(arg port)" />
-      <param name="meta_topic" value="/uav/stream_meta" />
-      <param name="output_topic" value="/uav/image_decoded" />
-    </node>
-
-    <node pkg="edge_yolo_ros"
-          type="yolo_tracker.py"
-          name="yolo_tracker"
-          output="screen">
-      <param name="input_topic" value="/uav/image_decoded" />
-      <param name="weights" value="$(arg weights)" />
-      <param name="device" value="$(arg device)" />
-      <param name="image_size" value="$(arg image_size)" />
-      <param name="prediction_horizon_s" value="$(arg prediction_horizon_s)" />
-      <param name="active_fps" value="$(arg active_fps)" />
-      <param name="active_bitrate_kbps" value="$(arg active_bitrate_kbps)" />
-      <param name="idle_fps" value="$(arg idle_fps)" />
-      <param name="idle_bitrate_kbps" value="$(arg idle_bitrate_kbps)" />
-      <param name="idle_timeout" value="$(arg idle_timeout)" />
-    </node>
-  </group>
+  <node pkg="edge_yolo_ros"
+        type="yolo_detector.py"
+        name="yolo_detector"
+        output="screen">
+    <rosparam command="load" file="$(find edge_yolo_ros)/config/detector.yaml" />
+    <param name="weights" value="$(arg weights)" />
+    <param name="device" value="$(arg device)" />
+    <param name="image_size" value="$(arg image_size)" />
+  </node>
 
   <node pkg="edge_yolo_ros"
         type="metrics_recorder.py"
         name="metrics_recorder"
         output="screen">
-    <param name="mode" value="$(arg mode)" />
     <param name="results_dir" value="$(arg results_dir)" />
   </node>
 </launch>

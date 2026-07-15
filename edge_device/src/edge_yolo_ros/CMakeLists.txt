@@ -12,8 +12,6 @@ add_message_files(
   FILES
   Detection.msg
   DetectionArray.msg
-  TrackedObject.msg
-  TrackArray.msg
 )
 
 generate_messages(
@@ -27,8 +25,6 @@ catkin_package(
 
 catkin_install_python(PROGRAMS
   scripts/yolo_detector.py
-  scripts/yolo_tracker.py
-  scripts/h264_receiver.py
   scripts/metrics_recorder.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
